@@ -1,0 +1,10 @@
+#Parte II
+from readchar import readkey
+while True: 
+    tecla = readkey()
+    if tecla.encode() == b'\x00H': # Código de escape (para salir del bucle infinito)=\x1b[A.
+        print("Se presionó la tecla ↑ (flecha hacia arriba)")
+        break     
+    else:
+        print(f"se presionó la tecla: {tecla}")
+    
