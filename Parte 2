@@ -7,4 +7,26 @@ while True:
         break     
     else:
         print(f"se presionó la tecla: {tecla}")
+
+import os
+
+def clear():
+    os.system('cls' if os.name=='nt' else 'clear')
+
+#Parte III
+def main():
+    number = 0
+    while True:
+        clear()
+        print(number)
+        key = input("Presiona 'n' para continuar o cualquier otra tecla para salir: ")
+        if key != 'n':
+            break
+        number += 1
+        if number > 50:
+            break
+
+if __name__ == '__main__':
+    main()
+
     
