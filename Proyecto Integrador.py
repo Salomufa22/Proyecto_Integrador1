@@ -18,19 +18,15 @@ while True:
 #Parte III
 import os
 
-def clear():
+def clear_terminal():
     os.system('cls' if os.name=='nt' else 'clear')
+
 def main():
     number = 0
-    while True:
-        clear()
-        print(number)
-        key = input("Presiona 'n' para continuar o cualquier otra tecla para salir: ")
-        if key != 'n':
-            break
-        number += 1
-        if number > 50:
-            break
-
-if __name__ == '__main__':
-    main()
+    while number <= 50:
+        key = input("Presiona 'n' para continuar...")
+        if key == 'n':
+            clear_terminal()
+            print(number)
+            number += 1
+main()
