@@ -14,13 +14,12 @@ while True:
     else:
         print(f"se presionó la tecla: {tecla}")
 
+
+#Parte III
 import os
 
 def clear():
     os.system('cls' if os.name=='nt' else 'clear')
-
-
-#Parte III
 def main():
     number = 0
     while True:
