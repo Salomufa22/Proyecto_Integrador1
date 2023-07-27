@@ -1,0 +1,120 @@
+from readchar import readkey
+import os
+
+nombre_jugador = input("Ingresa tu nombre: ")
+print("Bienvenido," + nombre_jugador + "\nDisfruta la partida!")
+
+lab = """..###################
+..#.............#.#.#
+#.#######.#####.#.#.#
+#...........#.....#.#
+#.###.#.#.#.###.###.#
+#.#.#.#.#.#.#.....#.#
+#.#.#.#####.#####.#.#
+#.#.......#.....#...#
+#####.###.#####.###.#
+#.#.....#.#.#.....#.#
+#.#.#####.#.#####.#.#
+#.....#.......#.#.#.#
+###########.#.#.#####
+#.#.......#.#.....#.#
+#.#######.#.#.###.#.#
+#...#.#.....#.#.#...#
+#.###.#.#.###.#.#.#.#
+#...#...#.#.#.#.#.#.#
+###.###.###.###.###.#
+#.......#...........#
+###################.#"""
+
+def convierteLab(lab):
+    matriz = []
+    for linea in lab.split("\n"):
+        matriz.append(list(linea))
+    #print(matriz)
+    return matriz
+
+def clear():
+    os.system('cls' if os.name=='nt' else 'clear')
+
+def mostrar(mapa):
+    clear()
+    #join in cadenas
+    for fila in mapa:
+        linea = ""
+        for char in fila:
+            linea += char
+        print(linea)
+
+mapa = convierteLab(lab)
+
+
+def main(mapa, posIni, posFinal):
+    px = posIni[0]
+    py = posIni[1]
+
+    pxf = posFinal[0]
+    pyf = posFinal[1]
+    
+    mapa[px][py] = "P"
+    mapa[pxf][pyf] = "."
+    mostrar(mapa)
+
+    while True:
+        tecla = readkey()
+        if tecla.encode() == b'\x00H': # Se presionó la tecla ↑ (flecha hacia arriba)
+            #print("px: " + str(px))
+            #print("py: " + str(py))
+            if px-1 >= 0 and mapa[px-1][py] == "#":
+                print("No puedo avanzar hacia una pared")
+            elif px-1 >= 0 and mapa[px-1][py] == ".":
+                print("Voy a avanzar hacia arriba")
+                mapa[px][py] = "."
+                px = px - 1
+                mapa[px][py] = "P"
+                mostrar(mapa) 
+            else:
+                print("No puedo salir del laberinto :c")
+           
+        elif tecla.encode() == b'\x00P': # Se presionó  la tecla ↓ (flecha hacia abajo)
+            nro_filas = len(mapa) # dimensiones verticales 
+            if px+1 < nro_filas and mapa[px+1][py] == "#":
+                print("No puedo avanzar hacia una pared")
+            elif px+1 < nro_filas and mapa[px+1][py] == ".":
+                print("Voy a avanzar hacia abajo")
+                mapa[px][py] = "."
+                px = px + 1
+                mapa[px][py] = "P"
+                mostrar(mapa) 
+            else:
+                print("No puedo salir del laberinto :c")
+
+        elif tecla.encode() == b'\x00M': # Se presionó la tecla → (flecha hacia la derecha)
+            nro_columnas= len(mapa[0]) # dimensiones horizontales
+            if py+1 < nro_columnas and mapa[px][py+1] == "#":
+                print("No puedo avanzar hacia una pared")
+            elif py+1 < nro_columnas and mapa[px][py+1] == ".":
+                print("Voy a avanzar hacia la derecha")
+                mapa[px][py] = "."
+                py = py + 1
+                mapa[px][py] = "P"
+                mostrar(mapa) 
+            else:
+                print("No puedo salir del laberinto :c")
+            
+        elif tecla.encode() == b'\x00K': # Se presionó la tecla ← (flecha hacia la izquierda)
+            if py-1 >= 0 and mapa[px][py-1] == "#":
+                print("No puedo avanzar hacia una pared")
+            elif py-1 >= 0 and mapa[px][py-1] == ".":
+                print("Voy a avanzar hacia la izquierda")
+                mapa[px][py] = "."
+                py = py - 1
+                mapa[px][py] = "P"
+                mostrar(mapa) 
+            else:
+                print("No puedo salir del laberinto :c")
+        else:
+            print(f"se presionó la tecla: {tecla}")
+            break
+
+if __name__ == '__main__':
+    main(mapa, (1, 0), (0, 0))
