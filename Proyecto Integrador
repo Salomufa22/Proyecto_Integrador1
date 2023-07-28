@@ -1,5 +1,7 @@
 from readchar import readkey
 import os
+import random
+
 class Juego:
     def __init__(self, mapa:str, posIni:tuple[int, int], posFinal:tuple[int, int]):
         self.mapa = self.convierteMatriz(mapa)
@@ -124,9 +126,39 @@ class Juego:
             else:
                 print(f"se presionó la tecla: {tecla}")
                 break
+#JuegoArchivo
+class JuegoArchivo(Juego):
+    def __init__(self):
+            mapa, posIni, posFinal = self.seleccionaMapa()
+            self.mapa = self.convierteMatriz(mapa)
+            self.posIni = posIni
+            self.posFinal = posFinal
+            self.nombre_jugador = self.nombreJugador()
+            self.iniJuego(self.mapa, self.posIni, self.posFinal)
+    
+    def seleccionaMapa(self):
+        selecMap = os.listdir("MAPAS")
+        archivo = random.choice(selecMap)
+        return self.leeArchivos(archivo)
+        
+    
+    def leeArchivos(self, archivo:str):
+        f = open("MAPAS/" + archivo)
+        counter = 0 
+        mapa = ""
+        for linea in f:
+            if counter == 0:
+                coordenadas = linea
+                counter = 1
+            else:
+                mapa += linea
+        f.close()
 
-#if __name__ == '__main__':
- #   main(mapa, (1, 0), (0, 0))
+        finCoordenadas = list(map(int, coordenadas.split()))
+        posIni = (finCoordenadas[0],finCoordenadas[1])
+        posFinal = (finCoordenadas[2], finCoordenadas[3])
+
+        return mapa.strip(), posIni, posFinal
 
 lab = """..###################
 ..#.............#.#.#
@@ -153,6 +185,7 @@ posIni = (1,0)
 posFinal = (0,0)
 
 def main():
-    laberinto = Juego(lab, posIni, posFinal)
+    #laberinto = Juego(lab, posIni, posFinal)
+    laberinto2 = JuegoArchivo()
 
 main()
