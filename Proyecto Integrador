@@ -1,6 +1,7 @@
 from readchar import readkey
 import os
 import random
+from functools import reduce
 
 class Juego:
     def __init__(self, mapa:str, posIni:tuple[int, int], posFinal:tuple[int, int]):
@@ -41,10 +42,7 @@ class Juego:
         return nombre_jugador
 
     def convierteMatriz(self, lab:str):
-        matriz = []
-        for linea in lab.split("\n"):
-            matriz.append(list(linea))
-        #print(matriz)
+        matriz = list(map(list, lab.split("\n")))
         return matriz
 
     def clear(self):
@@ -143,16 +141,12 @@ class JuegoArchivo(Juego):
         
     
     def leeArchivos(self, archivo:str):
-        f = open("MAPAS/" + archivo)
-        counter = 0 
-        mapa = ""
-        for linea in f:
-            if counter == 0:
-                coordenadas = linea
-                counter = 1
-            else:
-                mapa += linea
-        f.close()
+        fArchivo = open("MAPAS/" + archivo)
+        lineas = fArchivo.readlines()
+        coordenadas = lineas[0]
+        mapa = reduce(lambda acumulado, actual: acumulado + actual, lineas[1:], "")
+
+        fArchivo.close()
 
         finCoordenadas = list(map(int, coordenadas.split()))
         posIni = (finCoordenadas[0],finCoordenadas[1])
